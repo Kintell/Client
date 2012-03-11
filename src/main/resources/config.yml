@@ -1,0 +1,9 @@
+server:
+  host: '127.0.0.1'
+  port: 6596
+window:
+  title: 'Kintell - Client'
+editor:
+  title: 'Kintell - IA Editor'
+plugins:
+  path: 'plugins'
