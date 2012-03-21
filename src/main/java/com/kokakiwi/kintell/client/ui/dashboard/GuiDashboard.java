@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -32,6 +33,7 @@ import com.kokakiwi.kintell.client.ui.MainWindow;
 import com.kokakiwi.kintell.client.ui.board.LaunchBoardDialog;
 import com.kokakiwi.kintell.client.ui.editor.EditorPane;
 import com.kokakiwi.kintell.spec.net.msg.ProgramsListMessage;
+import javax.swing.ScrollPaneConstants;
 
 public class GuiDashboard extends Gui
 {
@@ -42,6 +44,7 @@ public class GuiDashboard extends Gui
     private final Map<String, Program> opened           = Maps.newLinkedHashMap();
     
     private final MainWindow           window;
+    private JTextArea                  debugArea;
     
     public GuiDashboard(final MainWindow window)
     {
@@ -93,8 +96,16 @@ public class GuiDashboard extends Gui
         });
         scrollPane.setViewportView(tree);
         
+        JPanel mainPanel = new JPanel();
+        splitPane.setRightComponent(mainPanel);
+        mainPanel.setLayout(new BorderLayout(0, 0));
+        
+        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        mainSplitPane.setContinuousLayout(true);
+        mainPanel.add(mainSplitPane, BorderLayout.CENTER);
+        
         JPanel panel = new JPanel();
-        splitPane.setRightComponent(panel);
+        mainSplitPane.setLeftComponent(panel);
         panel.setLayout(new BorderLayout(0, 0));
         
         tabs = new JTabbedPane(JTabbedPane.TOP);
@@ -106,6 +117,19 @@ public class GuiDashboard extends Gui
             }
         });
         panel.add(tabs, BorderLayout.CENTER);
+        
+        JScrollPane debugAreaScroll = new JScrollPane();
+        debugAreaScroll
+                .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        debugAreaScroll.setMinimumSize(new Dimension(
+                debugAreaScroll.getWidth(), 100));
+        
+        debugArea = new JTextArea(5, 50);
+        debugArea.setEditable(false);
+        debugAreaScroll.setViewportView(debugArea);
+        
+        mainSplitPane.setRightComponent(debugAreaScroll);
+        mainSplitPane.setDividerLocation(420);
         
         setMinimumSize(new Dimension(800, 600));
     }
@@ -161,7 +185,7 @@ public class GuiDashboard extends Gui
                 JDialog dialog1 = new JDialog(window,
                         "Chargement des autres programmes...");
                 JLabel label = new JLabel("Chargement des autres programmes...");
-                dialog1.add(label);
+                dialog1.getContentPane().add(label);
                 dialog1.pack();
                 dialog1.validate();
                 dialog1.setLocationRelativeTo(window);
@@ -218,6 +242,11 @@ public class GuiDashboard extends Gui
     public Map<String, Program> getOpened()
     {
         return opened;
+    }
+    
+    public JTextArea getDebugArea()
+    {
+        return debugArea;
     }
     
 }

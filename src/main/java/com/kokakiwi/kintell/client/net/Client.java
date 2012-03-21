@@ -43,6 +43,7 @@ public class Client
                 new ProgramsListMessageHandler(this));
         codec.registerHandler(LaunchMessage.class, new LaunchMessageHandler(
                 this));
+        codec.registerHandler(DebugMessage.class, new DebugMessageHandler(this));
     }
     
     public boolean connect(String pseudo)
@@ -92,6 +93,28 @@ public class Client
         }
         
         bootstrap.releaseExternalResources();
+    }
+    
+    public boolean sendMessage(Message msg)
+    {
+        boolean result = false;
+        if (channel != null && channel.isWritable())
+        {
+            ChannelFuture future = channel.write(msg);
+            try
+            {
+                future.await(30000L);
+                if (future.isSuccess())
+                {
+                    result = true;
+                }
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
     
     public KintellClient getMain()

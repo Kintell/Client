@@ -1,5 +1,6 @@
 package com.kokakiwi.kintell.client.net;
 
+import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -44,7 +45,12 @@ public class ClientEncoder extends OneToOneEncoder
         codec.encode(buf, message);
         buf.copyWritedBytesToReadableBytes();
         
-        return ChannelBuffers.copiedBuffer(buf.getReadableBytes());
+        ChannelBuffer buffer = ChannelBuffers
+                .buffer(buf.getReadableBytesSize() + 4);
+        buffer.writeInt(buf.getReadableBytesSize());
+        buffer.writeBytes(buf.getReadableBytes());
+        
+        return buffer;
     }
     
 }

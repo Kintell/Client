@@ -23,7 +23,10 @@ public class BoardMessageHandler extends MessageHandler<BoardMessage>
     {
         int id = msg.getId();
         Listener listener = client.getMain().getCore().getListener(id);
-        listener.messageReceived(msg);
+        if (listener != null)
+        {
+            listener.messageReceived(msg);
+        }
         
         return true;
     }
