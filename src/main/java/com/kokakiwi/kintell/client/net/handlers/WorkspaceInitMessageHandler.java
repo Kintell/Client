@@ -51,6 +51,7 @@ public class WorkspaceInitMessageHandler extends
             client.getMain().getCore().getMachines().addMachine(m);
         }
         
+        client.getMain().getCore().setConnectionResult(true);
         client.getMain().getCore().setWaiting(false);
         
         return true;

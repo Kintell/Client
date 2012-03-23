@@ -139,7 +139,7 @@ public class GuiDashboard extends Gui
     {
         JMenu file = new JMenu("File");
         
-        JMenu create = new JMenu("New");
+        JMenu create = new JMenu("Nouveau");
         
         JMenuItem newMachine = new JMenuItem(new AbstractAction("Machine") {
             private static final long serialVersionUID = 8601855836914622132L;
@@ -153,7 +153,7 @@ public class GuiDashboard extends Gui
         });
         create.add(newMachine);
         
-        JMenuItem newProgram = new JMenuItem(new AbstractAction("Program") {
+        JMenuItem newProgram = new JMenuItem(new AbstractAction("Programme") {
             private static final long serialVersionUID = -8815638955911075235L;
             
             public void actionPerformed(ActionEvent e)
@@ -205,6 +205,17 @@ public class GuiDashboard extends Gui
         });
         
         file.add(launch);
+        
+        JMenuItem ranking = new JMenuItem(new AbstractAction("Classement") {
+            private static final long serialVersionUID = 5251804134125998998L;
+            
+            public void actionPerformed(ActionEvent e)
+            {
+                
+            }
+        });
+        
+        file.add(ranking);
         
         bar.add(file);
     }

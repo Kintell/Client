@@ -17,12 +17,13 @@ public class KintellClientCore
     private final KintellClient                                 main;
     
     private final Machines                                      machines;
-    private final Map<String, WorkspaceInitMessage.ContentType> contentTypes   = Maps.newLinkedHashMap();
-    private final List<ProgramsListMessage.Program>             otherPrograms  = new LinkedList<ProgramsListMessage.Program>();
-    private final Map<String, BoardFactory<? extends Board>>    boardFactories = Maps.newLinkedHashMap();
-    private final Map<Integer, Listener>                        listeners      = Maps.newLinkedHashMap();
+    private final Map<String, WorkspaceInitMessage.ContentType> contentTypes     = Maps.newLinkedHashMap();
+    private final List<ProgramsListMessage.Program>             otherPrograms    = new LinkedList<ProgramsListMessage.Program>();
+    private final Map<String, BoardFactory<? extends Board>>    boardFactories   = Maps.newLinkedHashMap();
+    private final Map<Integer, Listener>                        listeners        = Maps.newLinkedHashMap();
     
-    private boolean                                             waiting        = false;
+    private boolean                                             waiting          = false;
+    private boolean                                             connectionResult = false;
     
     public KintellClientCore(KintellClient main)
     {
@@ -91,5 +92,15 @@ public class KintellClientCore
     public void registerListener(int id, Listener listener)
     {
         listeners.put(id, listener);
+    }
+    
+    public boolean isConnectionResult()
+    {
+        return connectionResult;
+    }
+    
+    public void setConnectionResult(boolean connectionResult)
+    {
+        this.connectionResult = connectionResult;
     }
 }

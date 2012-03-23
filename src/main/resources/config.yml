@@ -1,5 +1,5 @@
 server:
-  host: '127.0.0.1'
+  host: '88.161.147.53'
   port: 6596
 window:
   title: 'Kintell - Client'

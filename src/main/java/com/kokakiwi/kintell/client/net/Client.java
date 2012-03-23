@@ -44,9 +44,11 @@ public class Client
         codec.registerHandler(LaunchMessage.class, new LaunchMessageHandler(
                 this));
         codec.registerHandler(DebugMessage.class, new DebugMessageHandler(this));
+        codec.registerHandler(WrongPasswordMessage.class,
+                new WrongPasswordMessageHandler(this));
     }
     
-    public boolean connect(String pseudo)
+    public boolean connect(String pseudo, String password)
     {
         boolean result = false;
         
@@ -67,6 +69,7 @@ public class Client
                 
                 ConnectMessage msg = new ConnectMessage();
                 msg.setPseudo(pseudo);
+                msg.setPassword(password);
                 channel.write(msg);
                 
                 main.getCore().setWaiting(true);
@@ -80,17 +83,27 @@ public class Client
         return result;
     }
     
-    public void stop()
+    public boolean disconnect()
     {
+        boolean result = false;
+        
         if (channel != null)
         {
             ChannelFuture future = channel.close();
             future.awaitUninterruptibly();
-            if (!future.isSuccess())
+            
+            if (future.isSuccess())
             {
-                System.err.println("Error during closing main channel!");
+                result = true;
             }
         }
+        
+        return result;
+    }
+    
+    public void stop()
+    {
+        disconnect();
         
         bootstrap.releaseExternalResources();
     }

@@ -27,9 +27,11 @@ public class DebugMessageHandler extends MessageHandler<DebugMessage>
         {
             GuiDashboard dashboard = (GuiDashboard) gui;
             
-            dashboard.getDebugArea()
-                    .append(new StringBuilder(msg.getMessage()).append('\n')
-                            .toString());
+            for (String message : msg.getMessages())
+            {
+                dashboard.getDebugArea().append(
+                        new StringBuilder(message).append('\n').toString());
+            }
             
             return true;
         }
