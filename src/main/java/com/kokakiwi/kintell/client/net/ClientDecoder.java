@@ -29,13 +29,13 @@ public class ClientDecoder extends OneToOneDecoder
             return msg;
         }
         
-        DataBuffer buf = new DynamicDataBuffer();
+        final DataBuffer buf = new DynamicDataBuffer();
         buf.setReadableBytes(((ChannelBuffer) msg).array());
         
         Object decoded = msg;
         
-        byte opcode = buf.readByte();
-        MessageCodec<Message> codec = client.getCodec().getCodec(opcode);
+        final byte opcode = buf.readByte();
+        final MessageCodec<Message> codec = client.getCodec().getCodec(opcode);
         
         if (codec != null)
         {

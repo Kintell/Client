@@ -23,10 +23,10 @@ public class LaunchMessageHandler extends MessageHandler<LaunchMessage>
     public boolean handle(ChannelHandlerContext ctx, MessageEvent e,
             LaunchMessage msg)
     {
-        BoardFactory<? extends Board> boardFactory = client.getMain().getCore()
-                .getBoardFactory(msg.getBoard());
+        final BoardFactory<? extends Board> boardFactory = client.getMain()
+                .getCore().getBoardFactory(msg.getBoard());
         
-        BoardFrame frame = new BoardFrame(client.getMain(), boardFactory,
+        final BoardFrame frame = new BoardFrame(client.getMain(), boardFactory,
                 msg.getPrograms(), msg.getId());
         client.getMain().getWindow().setFrame(frame);
         frame.setVisible(true);

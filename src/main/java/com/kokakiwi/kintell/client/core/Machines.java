@@ -41,29 +41,30 @@ public class Machines
     
     public Machine createMachine(String id)
     {
-        Machine machine = new Machine(this, id);
+        final Machine machine = new Machine(this, id);
         
         return machine;
     }
     
     public TreeModel getTreeModel()
     {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Machines");
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode(
+                "Machines");
         
-        for (Machine machine : machines.values())
+        for (final Machine machine : machines.values())
         {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(
+            final DefaultMutableTreeNode node = new DefaultMutableTreeNode(
                     machine.getId());
-            for (Program program : machine.getPrograms().values())
+            for (final Program program : machine.getPrograms().values())
             {
-                DefaultMutableTreeNode programNode = new DefaultMutableTreeNode(
+                final DefaultMutableTreeNode programNode = new DefaultMutableTreeNode(
                         program);
                 node.add(programNode);
             }
             root.add(node);
         }
         
-        TreeModel model = new DefaultTreeModel(root);
+        final TreeModel model = new DefaultTreeModel(root);
         return model;
     }
 }

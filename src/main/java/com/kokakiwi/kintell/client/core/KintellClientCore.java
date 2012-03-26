@@ -22,7 +22,6 @@ public class KintellClientCore
     private final Map<String, BoardFactory<? extends Board>>    boardFactories   = Maps.newLinkedHashMap();
     private final Map<Integer, Listener>                        listeners        = Maps.newLinkedHashMap();
     
-    private boolean                                             waiting          = false;
     private boolean                                             connectionResult = false;
     
     public KintellClientCore(KintellClient main)
@@ -44,16 +43,6 @@ public class KintellClientCore
     public Machines getMachines()
     {
         return machines;
-    }
-    
-    public boolean isWaiting()
-    {
-        return waiting;
-    }
-    
-    public void setWaiting(boolean waiting)
-    {
-        this.waiting = waiting;
     }
     
     public List<ProgramsListMessage.Program> getOtherPrograms()

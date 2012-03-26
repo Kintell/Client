@@ -27,12 +27,12 @@ public class BoardFactoryRenderer<T> extends BasicComboBoxRenderer
         }
         else if (value instanceof BoardFactory)
         {
-            BoardFactory<? extends Board> boardFactory = (BoardFactory<? extends Board>) value;
+            final BoardFactory<? extends Board> boardFactory = (BoardFactory<? extends Board>) value;
             setText(boardFactory.getName());
         }
         else
         {
-            setText((value == null) ? "" : value.toString());
+            setText(value == null ? "" : value.toString());
         }
         return this;
     }

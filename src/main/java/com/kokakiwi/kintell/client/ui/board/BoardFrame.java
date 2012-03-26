@@ -37,7 +37,7 @@ public class BoardFrame extends JFrame
         
         getContentPane().setLayout(new BorderLayout());
         
-        Component component = board.getComponent();
+        final Component component = board.getComponent();
         getContentPane().add(component, BorderLayout.CENTER);
         
         getContentPane().setSize(component.getSize());
@@ -51,7 +51,7 @@ public class BoardFrame extends JFrame
             @Override
             public void windowClosing(WindowEvent e)
             {
-                StopMessage msg = new StopMessage();
+                final StopMessage msg = new StopMessage();
                 msg.setBoard(boardFactory.getId());
                 msg.setId(id);
                 main.getClient().sendMessage(msg);

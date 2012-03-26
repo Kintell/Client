@@ -45,8 +45,8 @@ public class ClientEncoder extends OneToOneEncoder
         codec.encode(buf, message);
         buf.copyWritedBytesToReadableBytes();
         
-        ChannelBuffer buffer = ChannelBuffers
-                .buffer(buf.getReadableBytesSize() + 4);
+        final ChannelBuffer buffer = ChannelBuffers.buffer(buf
+                .getReadableBytesSize() + 4);
         buffer.writeInt(buf.getReadableBytesSize());
         buffer.writeBytes(buf.getReadableBytes());
         

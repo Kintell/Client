@@ -21,8 +21,8 @@ public class BoardMessageHandler extends MessageHandler<BoardMessage>
     public boolean handle(ChannelHandlerContext ctx, MessageEvent e,
             BoardMessage msg)
     {
-        int id = msg.getId();
-        Listener listener = client.getMain().getCore().getListener(id);
+        final int id = msg.getId();
+        final Listener listener = client.getMain().getCore().getListener(id);
         if (listener != null)
         {
             listener.messageReceived(msg);

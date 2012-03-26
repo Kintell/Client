@@ -1,9 +1,10 @@
 package com.kokakiwi.kintell.client.ui;
 
-import javax.swing.JDialog;
-import javax.swing.JTextPane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
+import javax.swing.JDialog;
+import javax.swing.JTextPane;
 
 public class AboutDialog extends JDialog
 {
@@ -11,14 +12,14 @@ public class AboutDialog extends JDialog
     {
         setTitle("A propos de Kintell");
         
-        JTextPane txtpnKintellVBy = new JTextPane();
+        final JTextPane txtpnKintellVBy = new JTextPane();
         txtpnKintellVBy.setEditable(false);
         txtpnKintellVBy.setContentType("text/html");
         txtpnKintellVBy
                 .setText("<div style=\"font-family: 'Helvetica', Arial, sans-serif;\">\r\n\tKintell v0.1.0<br />\r\n\tBy <a href=\"http://kokaelkiwi.tk\">Koka El Kiwi</a>\r\n</div>");
         getContentPane().add(txtpnKintellVBy, BorderLayout.CENTER);
         
-        Dimension size = new Dimension(450, 300);
+        final Dimension size = new Dimension(450, 300);
         setSize(size);
         setMinimumSize(size);
         setMaximumSize(size);

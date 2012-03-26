@@ -24,16 +24,17 @@ public class ClientHandler extends SimpleChannelUpstreamHandler
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e)
             throws Exception
     {
-        Object message = e.getMessage();
+        final Object message = e.getMessage();
         if (message instanceof Message)
         {
-            Message msg = (Message) message;
-            Class<Message> clazz = (Class<Message>) msg.getClass();
-            MessageHandler<Message> handler = client.getCodec().getHandler(
-                    clazz);
+            final Message msg = (Message) message;
+            final Class<Message> clazz = (Class<Message>) msg.getClass();
+            final MessageHandler<Message> handler = client.getCodec()
+                    .getHandler(clazz);
             if (handler != null)
             {
-                PacketExecutor executor = new PacketExecutor(handler, ctx, e);
+                final PacketExecutor executor = new PacketExecutor(handler,
+                        ctx, e);
                 client.getExecutor().execute(executor);
                 return;
             }

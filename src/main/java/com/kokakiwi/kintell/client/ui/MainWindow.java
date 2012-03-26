@@ -23,6 +23,7 @@ public class MainWindow extends JFrame
     private final KintellClient main;
     private Gui                 currentGui       = null;
     private BoardFrame          frame            = null;
+    private final StatusBar     statusBar;
     
     public MainWindow(final KintellClient main) throws HeadlessException
     {
@@ -40,6 +41,8 @@ public class MainWindow extends JFrame
             }
         });
         
+        statusBar = new StatusBar();
+        
         displayGui(new GuiMainMenu(this));
         
         setMinimumSize(new Dimension(800, 600));
@@ -53,8 +56,9 @@ public class MainWindow extends JFrame
         getContentPane().removeAll();
         
         getContentPane().add(gui, BorderLayout.CENTER);
+        getContentPane().add(statusBar, BorderLayout.SOUTH);
         
-        JMenuBar bar = new JMenuBar();
+        final JMenuBar bar = new JMenuBar();
         gui.fillMenuBar(bar);
         fillMenuBar(bar);
         setJMenuBar(bar);
@@ -64,14 +68,14 @@ public class MainWindow extends JFrame
     
     private void fillMenuBar(JMenuBar bar)
     {
-        JMenu help = new JMenu("Help");
+        final JMenu help = new JMenu("Help");
         
-        Action about = new AbstractAction("About") {
+        final Action about = new AbstractAction("About") {
             private static final long serialVersionUID = 8601855836914622132L;
             
             public void actionPerformed(ActionEvent e)
             {
-                AboutDialog dialog = new AboutDialog();
+                final AboutDialog dialog = new AboutDialog();
                 dialog.setLocationRelativeTo(MainWindow.this);
                 dialog.setVisible(true);
             }
@@ -99,5 +103,10 @@ public class MainWindow extends JFrame
     public void setFrame(BoardFrame frame)
     {
         this.frame = frame;
+    }
+    
+    public StatusBar getStatusBar()
+    {
+        return statusBar;
     }
 }

@@ -32,7 +32,7 @@ public class KintellClient
                     KintellClient.class.getResourceAsStream("/config.yml"),
                     "yaml");
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class KintellClient
             pluginsManager.loadPlugins();
             pluginsManager.enablePlugins();
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             e.printStackTrace();
         }
@@ -112,12 +112,12 @@ public class KintellClient
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             e.printStackTrace();
         }
         
-        KintellClient main = new KintellClient();
+        final KintellClient main = new KintellClient();
         main.start();
     }
 }

@@ -82,14 +82,14 @@ public class EditorPane extends JPanel
         textScrollPane = new RTextScrollPane(textArea);
         add(textScrollPane, BorderLayout.CENTER);
         
-        JToolBar toolBar = new JToolBar();
+        final JToolBar toolBar = new JToolBar();
         fillToolBar(toolBar);
         add(toolBar, BorderLayout.NORTH);
     }
     
     private RSyntaxTextArea createTextArea()
     {
-        RSyntaxTextArea area = new RSyntaxTextArea(25, 70);
+        final RSyntaxTextArea area = new RSyntaxTextArea(25, 70);
         area.setSyntaxEditingStyle(program.getContentType().getContentType());
         area.setCaretPosition(0);
         area.requestFocusInWindow();
@@ -100,11 +100,11 @@ public class EditorPane extends JPanel
         
         try
         {
-            Theme theme = Theme.load(EditorPane.class
+            final Theme theme = Theme.load(EditorPane.class
                     .getResourceAsStream("/eclipse.xml"));
             theme.apply(area);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             e.printStackTrace();
         }
@@ -114,7 +114,7 @@ public class EditorPane extends JPanel
     
     public void save()
     {
-        SendSourceMessage msg = new SendSourceMessage();
+        final SendSourceMessage msg = new SendSourceMessage();
         msg.setMachine(program.getOwner().getId());
         msg.setProgram(program.getId());
         msg.setSource(textArea.getText());

@@ -5,33 +5,31 @@ import org.jboss.netty.channel.MessageEvent;
 
 import com.kokakiwi.kintell.client.net.Client;
 import com.kokakiwi.kintell.client.ui.Gui;
-import com.kokakiwi.kintell.client.ui.GuiMainMenu;
+import com.kokakiwi.kintell.client.ui.dashboard.GuiDashboard;
 import com.kokakiwi.kintell.spec.net.MessageHandler;
-import com.kokakiwi.kintell.spec.net.msg.WrongPasswordMessage;
+import com.kokakiwi.kintell.spec.net.msg.RankEntriesMessage;
 
-public class WrongPasswordMessageHandler extends
-        MessageHandler<WrongPasswordMessage>
+public class RankEntriesMessageHandler extends
+        MessageHandler<RankEntriesMessage>
 {
     private final Client client;
     
-    public WrongPasswordMessageHandler(Client client)
+    public RankEntriesMessageHandler(Client client)
     {
         this.client = client;
     }
     
     @Override
     public boolean handle(ChannelHandlerContext ctx, MessageEvent e,
-            WrongPasswordMessage msg)
+            RankEntriesMessage msg)
     {
-        client.getMain().getClient().disconnect();
-        client.getMain().getCore().setConnectionResult(false);
-        
         final Gui gui = client.getMain().getWindow().getCurrentGui();
-        if (gui instanceof GuiMainMenu)
+        if (gui instanceof GuiDashboard)
         {
-            ((GuiMainMenu) gui).next();
+            ((GuiDashboard) gui).openRankEntriesWindow(msg);
         }
         
-        return false;
+        return true;
     }
+    
 }

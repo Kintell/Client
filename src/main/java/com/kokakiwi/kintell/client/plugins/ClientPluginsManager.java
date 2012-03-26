@@ -25,15 +25,15 @@ public class ClientPluginsManager extends PluginsManager<ClientPlugin>
         
         try
         {
-            String pluginMainClassName = pdf.getMain();
-            Class<? extends ClientPlugin> pluginClass = (Class<? extends ClientPlugin>) loader
+            final String pluginMainClassName = pdf.getMain();
+            final Class<? extends ClientPlugin> pluginClass = (Class<? extends ClientPlugin>) loader
                     .loadClass(pluginMainClassName);
-            Constructor<? extends ClientPlugin> constructor = pluginClass
+            final Constructor<? extends ClientPlugin> constructor = pluginClass
                     .getConstructor();
             plugin = constructor.newInstance();
             plugin.setMain(main);
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             e.printStackTrace();
         }

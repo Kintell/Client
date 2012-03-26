@@ -1,6 +1,5 @@
 package com.kokakiwi.kintell.client.ui.dashboard;
 
-import javax.swing.JMenuBar;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -9,16 +8,17 @@ import java.awt.event.MouseEvent;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JTextArea;
-import javax.swing.JTree;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTree;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -31,20 +31,21 @@ import com.kokakiwi.kintell.client.core.Program;
 import com.kokakiwi.kintell.client.ui.Gui;
 import com.kokakiwi.kintell.client.ui.MainWindow;
 import com.kokakiwi.kintell.client.ui.board.LaunchBoardDialog;
+import com.kokakiwi.kintell.client.ui.board.RankEntriesDialog;
 import com.kokakiwi.kintell.client.ui.editor.EditorPane;
 import com.kokakiwi.kintell.spec.net.msg.ProgramsListMessage;
-import javax.swing.ScrollPaneConstants;
+import com.kokakiwi.kintell.spec.net.msg.RankEntriesMessage;
 
 public class GuiDashboard extends Gui
 {
     private static final long          serialVersionUID = 7005308840219874402L;
-    private JTree                      tree;
-    private JTabbedPane                tabs;
+    private final JTree                tree;
+    private final JTabbedPane          tabs;
     
     private final Map<String, Program> opened           = Maps.newLinkedHashMap();
     
     private final MainWindow           window;
-    private JTextArea                  debugArea;
+    private final JTextArea            debugArea;
     
     public GuiDashboard(final MainWindow window)
     {
@@ -53,12 +54,12 @@ public class GuiDashboard extends Gui
         
         setLayout(new BorderLayout(0, 0));
         
-        JSplitPane splitPane = new JSplitPane();
+        final JSplitPane splitPane = new JSplitPane();
         splitPane.setContinuousLayout(true);
         splitPane.setPreferredSize(new Dimension(800, 600));
         add(splitPane, BorderLayout.CENTER);
         
-        JScrollPane scrollPane = new JScrollPane();
+        final JScrollPane scrollPane = new JScrollPane();
         scrollPane.setMinimumSize(new Dimension(150, 100));
         splitPane.setLeftComponent(scrollPane);
         
@@ -77,13 +78,13 @@ public class GuiDashboard extends Gui
                 {
                     if (tree.getSelectionCount() > 0)
                     {
-                        TreePath path = tree.getSelectionPath();
+                        final TreePath path = tree.getSelectionPath();
                         if (path.getPathCount() >= 3)
                         {
-                            Program program = (Program) ((DefaultMutableTreeNode) path
+                            final Program program = (Program) ((DefaultMutableTreeNode) path
                                     .getPathComponent(2)).getUserObject();
                             
-                            Program isOpened = opened.get(program.getId());
+                            final Program isOpened = opened.get(program.getId());
                             if (isOpened == null)
                             {
                                 opened.put(program.getId(), program);
@@ -96,19 +97,20 @@ public class GuiDashboard extends Gui
         });
         scrollPane.setViewportView(tree);
         
-        JPanel mainPanel = new JPanel();
+        final JPanel mainPanel = new JPanel();
         splitPane.setRightComponent(mainPanel);
         mainPanel.setLayout(new BorderLayout(0, 0));
         
-        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        final JSplitPane mainSplitPane = new JSplitPane(
+                JSplitPane.VERTICAL_SPLIT);
         mainSplitPane.setContinuousLayout(true);
         mainPanel.add(mainSplitPane, BorderLayout.CENTER);
         
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         mainSplitPane.setLeftComponent(panel);
         panel.setLayout(new BorderLayout(0, 0));
         
-        tabs = new JTabbedPane(JTabbedPane.TOP);
+        tabs = new JTabbedPane(SwingConstants.TOP);
         tabs.addChangeListener(new ChangeListener() {
             
             public void stateChanged(ChangeEvent e)
@@ -118,7 +120,7 @@ public class GuiDashboard extends Gui
         });
         panel.add(tabs, BorderLayout.CENTER);
         
-        JScrollPane debugAreaScroll = new JScrollPane();
+        final JScrollPane debugAreaScroll = new JScrollPane();
         debugAreaScroll
                 .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         debugAreaScroll.setMinimumSize(new Dimension(
@@ -137,23 +139,25 @@ public class GuiDashboard extends Gui
     @Override
     public void fillMenuBar(JMenuBar bar)
     {
-        JMenu file = new JMenu("File");
+        final JMenu file = new JMenu("File");
         
-        JMenu create = new JMenu("Nouveau");
+        final JMenu create = new JMenu("Nouveau");
         
-        JMenuItem newMachine = new JMenuItem(new AbstractAction("Machine") {
-            private static final long serialVersionUID = 8601855836914622132L;
-            
-            public void actionPerformed(ActionEvent e)
-            {
-                MachineCreateDialog dialog = new MachineCreateDialog(
-                        GuiDashboard.this);
-                dialog.setVisible(true);
-            }
-        });
+        final JMenuItem newMachine = new JMenuItem(
+                new AbstractAction("Machine") {
+                    private static final long serialVersionUID = 8601855836914622132L;
+                    
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        final MachineCreateDialog dialog = new MachineCreateDialog(
+                                GuiDashboard.this);
+                        dialog.setVisible(true);
+                    }
+                });
         create.add(newMachine);
         
-        JMenuItem newProgram = new JMenuItem(new AbstractAction("Programme") {
+        final JMenuItem newProgram = new JMenuItem(new AbstractAction(
+                "Programme") {
             private static final long serialVersionUID = -8815638955911075235L;
             
             public void actionPerformed(ActionEvent e)
@@ -161,7 +165,7 @@ public class GuiDashboard extends Gui
                 if (window.getMain().getCore().getMachines().getMachines()
                         .size() > 0)
                 {
-                    ProgramCreateDialog dialog = new ProgramCreateDialog(
+                    final ProgramCreateDialog dialog = new ProgramCreateDialog(
                             GuiDashboard.this);
                     dialog.setVisible(true);
                     dialog.getId().requestFocus();
@@ -172,57 +176,60 @@ public class GuiDashboard extends Gui
         
         file.add(create);
         
-        JMenuItem launch = new JMenuItem(new AbstractAction("Lancer un match") {
+        final JMenuItem launch = new JMenuItem(new AbstractAction(
+                "Lancer un match") {
             private static final long serialVersionUID = 8835698270712743644L;
             
             public void actionPerformed(ActionEvent e)
             {
-                window.getMain().getCore().setWaiting(true);
-                
-                ProgramsListMessage msg = new ProgramsListMessage();
-                window.getMain().getClient().getChannel().write(msg);
-                
-                JDialog dialog1 = new JDialog(window,
+                window.getStatusBar().setText(
                         "Chargement des autres programmes...");
-                JLabel label = new JLabel("Chargement des autres programmes...");
-                dialog1.getContentPane().add(label);
-                dialog1.pack();
-                dialog1.validate();
-                dialog1.setLocationRelativeTo(window);
-                dialog1.setVisible(true);
                 
-                while (window.getMain().getCore().isWaiting())
-                {
-                    
-                }
-                
-                dialog1.setVisible(false);
-                
-                LaunchBoardDialog dialog = new LaunchBoardDialog(
-                        GuiDashboard.this);
-                dialog.setVisible(true);
+                final ProgramsListMessage msg = new ProgramsListMessage();
+                window.getMain().getClient().sendMessage(msg);
             }
         });
         
         file.add(launch);
         
-        JMenuItem ranking = new JMenuItem(new AbstractAction("Classement") {
-            private static final long serialVersionUID = 5251804134125998998L;
-            
-            public void actionPerformed(ActionEvent e)
-            {
-                
-            }
-        });
+        final JMenuItem ranking = new JMenuItem(
+                new AbstractAction("Classement") {
+                    private static final long serialVersionUID = 5251804134125998998L;
+                    
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        window.getStatusBar().setText(
+                                "Chargement du classement...");
+                        
+                        final RankEntriesMessage msg = new RankEntriesMessage();
+                        window.getMain().getClient().sendMessage(msg);
+                    }
+                });
         
         file.add(ranking);
         
         bar.add(file);
     }
     
+    public void openLaunchWindow()
+    {
+        window.getStatusBar().setText(null);
+        
+        final LaunchBoardDialog dialog = new LaunchBoardDialog(this);
+        dialog.setVisible(true);
+    }
+    
+    public void openRankEntriesWindow(RankEntriesMessage msg)
+    {
+        window.getStatusBar().setText(null);
+        
+        final RankEntriesDialog dialog = new RankEntriesDialog(this, msg);
+        dialog.setVisible(true);
+    }
+    
     public void open(Program program)
     {
-        EditorPane editor = new EditorPane(program);
+        final EditorPane editor = new EditorPane(program);
         tabs.addTab(program.getName(), editor);
     }
     
@@ -231,7 +238,7 @@ public class GuiDashboard extends Gui
         for (int i = 0; i < tabs.getTabCount(); i++)
         {
             tabs.setTabComponentAt(i, new ButtonTabComponent(
-                    tabs.getTitleAt(i), this, (i == index)));
+                    tabs.getTitleAt(i), this, i == index));
         }
     }
     

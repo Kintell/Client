@@ -22,12 +22,12 @@ public class DebugMessageHandler extends MessageHandler<DebugMessage>
     public boolean handle(ChannelHandlerContext ctx, MessageEvent e,
             DebugMessage msg)
     {
-        Gui gui = client.getMain().getWindow().getCurrentGui();
+        final Gui gui = client.getMain().getWindow().getCurrentGui();
         if (gui instanceof GuiDashboard)
         {
-            GuiDashboard dashboard = (GuiDashboard) gui;
+            final GuiDashboard dashboard = (GuiDashboard) gui;
             
-            for (String message : msg.getMessages())
+            for (final String message : msg.getMessages())
             {
                 dashboard.getDebugArea().append(
                         new StringBuilder(message).append('\n').toString());
